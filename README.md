@@ -5,8 +5,8 @@ or another service to consume.
 
 # Featured by
 
-+ Grab Framework
-+ Python EVE (based on Flask framework)
++ [Grab Framework](https://github.com/lorien/grab)
++ [Python EVE (based on Flask framework)](https://github.com/nicolaiarocci/eve)
 
 # How to use
 
