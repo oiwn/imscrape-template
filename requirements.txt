@@ -1,0 +1,4 @@
+git+https://github.com/lorien/grab/
+pymongo
+eve
+honcho
