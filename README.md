@@ -69,7 +69,8 @@ and open http://localhost:8000 (both json and xml supported via content-type hea
 
 # TODO
 
-- [ ] database post/update via. internal eve (+ validate data)
-- [ ] add honcho
-- [ ] init settings.py constants from environment
-- [ ] add celery
+- [x] database post/update via. internal eve (+ validate data)
+- [x] add honcho
+- [ ] init settings.py constants from the environment variables
+- [x] add celery
+- [x] add makefile

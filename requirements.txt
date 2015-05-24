@@ -1,4 +1,12 @@
 git+https://github.com/lorien/grab/
-pymongo
+pymongo==2.8.1
 eve
 honcho
+celery
+gunicorn
+redis
+kombu
+pytz
+billiard
+setproctitle
+gevent

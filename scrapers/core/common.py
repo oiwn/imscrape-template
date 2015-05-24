@@ -2,6 +2,10 @@ import logging
 from datetime import datetime
 from urlparse import urlparse
 
+from eve.methods.post import post_internal
+from eve.methods.patch import patch_internal
+
+from api import api
 from settings import db_connection
 
 
@@ -44,19 +48,24 @@ class CommonMixin(object):
         obj = self.db[collection].find_one(specs_params)
         if obj is None:
             # insert
-            data['_created'] = datetime.utcnow()
-            data['_updated'] = datetime.utcnow()
-            self.db[collection].insert(data)
-            logger.info("Item Saved: {}".format(specs_params))
+            with api.test_request_context():
+                api_response = post_internal(collection, data)
+            logger.info("Item Saved: {}".format(api_response))
         else:
-            pass
-            # # update
-            data['_updated'] = datetime.utcnow()
-            self.db[collection].update(
-                {'_id': obj['_id']},
-                {'$set': data},
-            )
-            logger.info("Item Updated: {}".format(specs_params))
+            # update
+            update_this = {}
+            for field in specs:
+                del data[field]
+            for key, value in data.items():
+                if key not in obj:
+                    update_this[key] = value
+                else:
+                    if value != obj[key]:
+                        update_this[key] = value
+
+            with api.test_request_context():
+                api_response = patch_internal(collection, payload=update_this, _id=obj['_id'])
+            logger.info("Item Updated: {}".format(api_response))
 
         if not indexes:
             indexes = specs
@@ -68,10 +77,10 @@ class CommonMixin(object):
         """
         Log messages into mongodb collection.
         Arguments:
-        * col - mongodb collection name
-        * url - url of problem
-        * ex - name of exception
-        * message - message to log
+            + col - mongodb collection name
+            + url - url of problem
+            + ex - name of exception
+            + message - message to log
         """
 
         data = {
