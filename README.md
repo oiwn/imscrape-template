@@ -3,6 +3,11 @@
 Default template for my scraping project. Usually it's few scrapers + REST API on top for JavaScript/Mobile frontend
 or another service to consume.
 
+# Depends on
+
++ MongoDB
++ Redis
+
 # Featured by
 
 + [Grab Framework](https://github.com/lorien/grab)
@@ -33,6 +38,20 @@ run REST api
 
 ```bash
 python api.py
+```
+
+# Complex run with celery
+
+Run the api and celery using Procfile
+
+```bash
+honcho start
+```
+
+Run crawler as a celery task passing ```-c``` options into the ```cli.py``` (command line interface) script
+
+```bash
+python cli.py -T github -c
 ```
 
 and open http://localhost:8000 (both json and xml supported via content-type header)
